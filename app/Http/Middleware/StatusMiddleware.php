@@ -17,10 +17,9 @@ class StatusMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $status = Auth::user()->status;
-        dd($status);
-//        if (!($status === 'rent')) {
-//             return response()->json('Unauthorized', 401);
-//        }
-//        return $next($request);
+        if (!($status === 'renter')) {
+             return response()->json('Unauthorized', 401);
+        }
+        return $next($request);
     }
 }

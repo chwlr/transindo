@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CarController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 // Protected routes
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/users/logout', [UserController::class, 'logout']);
+    Route::get('/cars/filter/{filter}/{value}', [CarController::class, 'filterCars']);
+});
+Route::middleware(['auth:sanctum', 'status'])->group(function () {
+    Route::post('/cars', [CarController::class, 'store']);
 });
 
 // Public routes

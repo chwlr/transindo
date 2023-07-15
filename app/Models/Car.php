@@ -10,7 +10,7 @@ class Car extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $fillable = ['brand', 'model', 'numberPlate', 'rates'];
+    protected $fillable = ['id_user', 'brand', 'model', 'numberPlate', 'rates', 'availability'];
     protected $table = 'cars';
 
 }

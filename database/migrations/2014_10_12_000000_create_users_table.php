@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('phoneNumber');
             $table->string('driverLicense')->nullable(false);
-            $table->enum('status', ['rent', 'renting']);
+            $table->enum('status', ['rent', 'renter']);
             $table->timestamps();
         });
     }

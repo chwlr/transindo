@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class CarResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,11 +17,12 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
-            'phoneNumber' => $this->phoneNumber,
-            'driverLicense' => $this->driverLicense,
-            'status' => $this->status,
+            'owner' => User::find($this->id_user)->name,
+            'brand' => $this->brand,
+            'model' => $this->model,
+            'numberPlate' => $this->numberPlate,
+            'rates' => $this->rates,
+            'availability' => $this->availability,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

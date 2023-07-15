@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('cars', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->uuid('id_user')->nullable(false);
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->string('brand');
             $table->string('model');
             $table->string('numberPlate');
