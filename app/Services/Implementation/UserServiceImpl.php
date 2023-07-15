@@ -3,7 +3,7 @@
 namespace App\Services\Implementation;
 
 use App\Repositories\UserRepository;
-use App\Service\UserService;
+use App\Services\UserService;
 
 class UserServiceImpl implements UserService
 {

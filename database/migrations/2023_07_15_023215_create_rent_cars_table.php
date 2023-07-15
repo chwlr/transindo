@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->uuid('id_car')->nullable(false);
             $table->foreign('id_car')->references('id')->on('cars')->onDelete('cascade');
-            $table->timestamp('startRent');
-            $table->timestamp('finishRent');
+            $table->date('startRent');
+            $table->date('finishRent');
             $table->timestamps();
         });
     }

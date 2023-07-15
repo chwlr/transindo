@@ -2,10 +2,15 @@
 
 namespace App\Repositories\Implementation;
 
+use App\Exceptions\GeneralJsonException;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserRepositoryImpl implements UserRepository
 {
@@ -16,34 +21,48 @@ class UserRepositoryImpl implements UserRepository
         $this->user = $user;
     }
 
-    public function storeUser($attribute): array
+    public function storeUser($attribute): JsonResponse
     {
         try {
             DB::beginTransaction();
             $stored = $this->user->create([
                 'name' => data_get($attribute, 'name'),
                 'email' => data_get($attribute, 'email'),
-                'password' => data_get($attribute, 'password'),
+                'password' => Hash::make(data_get($attribute, 'password')),
                 'phoneNumber' => data_get($attribute, 'phoneNumber'),
-                'driveLicense' => data_get($attribute, 'driveLicense'),
+                'driverLicense' => data_get($attribute, 'driverLicense'),
                 'status' => data_get($attribute, 'status'),
             ]);
             $token = $stored->createToken('authToken')->plainTextToken;
             DB::commit();
-            return ['data' => $stored, 'token' => $token, 'statusCode' => 201];
+            return (new UserResource($stored->fresh()))->additional(['message' => 'successfully registered'])->response()->setStatusCode(201);
         } catch (Exception $e){
             DB::rollBack();
-            throw new Exception($e->getMessage());
+            throw new GeneralJsonException($e->getMessage(), 400);
         }
     }
 
-    public function loginUser($attribute)
+    public function loginUser($attribute): JsonResponse
     {
-        // TODO: Implement loginUser() method.
+        if (Auth::attempt(['email' => data_get($attribute, 'email'), 'password' => data_get($attribute, 'password')]))
+        {
+            $authUser = Auth::user();
+            $token = $authUser->createToken('authToken')->plainTextToken;
+            return (new UserResource($authUser))->additional(['token' => $token])->response()->setStatusCode(200);
+        } else {
+            throw new GeneralJsonException('Invalid email or password', 400);
+        }
     }
 
-    public function logoutUser()
+    public function logoutUser(): JsonResponse
     {
-        // TODO: Implement logoutUser() method.
+        try {
+            $authUser = Auth::user();
+            $authUser->currentAccessToken()->delete();
+            return response()->json("goodbye");
+        }catch (Exception $e)
+        {
+            throw new GeneralJsonException('Failed to logout user', 400);
+        }
     }
 }

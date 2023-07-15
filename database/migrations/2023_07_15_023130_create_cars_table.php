@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('model');
             $table->string('numberPlate');
             $table->decimal('rates', 10,2);
+            $table->enum('availability', ['available', 'unavailable']);
             $table->timestamps();
         });
     }

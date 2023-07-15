@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Protected routes
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/users/logout', [UserController::class, 'logout']);
 });
+
+// Public routes
+Route::post('/users', [UserController::class, 'store']);
+Route::post('/users/login', [UserController::class, 'login']);
+
+

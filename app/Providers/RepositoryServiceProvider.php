@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Repositories\UserRepository;
-use App\Service\UserService;
+use App\Services\UserService;
 use App\Services\Implementation\UserServiceImpl;
 use Illuminate\Support\ServiceProvider;
 
