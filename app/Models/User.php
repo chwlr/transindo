@@ -30,8 +30,13 @@ class User extends Authenticatable
 
     protected $table = 'users';
 
-    public function user(): HasMany
+    public function car(): HasMany
     {
         return $this->hasMany(Car::class);
+    }
+
+    public function rentCar(): HasMany
+    {
+        return $this->hasMany(RentCar::class);
     }
 }

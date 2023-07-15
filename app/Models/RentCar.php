@@ -10,6 +10,6 @@ class RentCar extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $fillable = ['id_user', 'id_car', 'startRent', 'finishRent'];
+    protected $fillable = ['id_user', 'id_car', 'startRent', 'finishRent', 'status'];
     protected $table = 'rent_cars';
 }

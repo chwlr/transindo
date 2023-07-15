@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\RentCarController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/users/logout', [UserController::class, 'logout']);
     Route::get('/cars/filter/{filter}/{value}', [CarController::class, 'filterCars']);
+    Route::post('/users/rent', [RentCarController::class, 'rentCar']);
+    Route::get('/users/rent/active', [RentCarController::class, 'activeRent']);
 });
 Route::middleware(['auth:sanctum', 'status'])->group(function () {
     Route::post('/cars', [CarController::class, 'store']);

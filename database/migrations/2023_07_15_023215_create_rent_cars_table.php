@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('id_car')->references('id')->on('cars')->onDelete('cascade');
             $table->date('startRent');
             $table->date('finishRent');
+            $table->enum('status', ['active', 'complete']);
             $table->timestamps();
         });
     }
